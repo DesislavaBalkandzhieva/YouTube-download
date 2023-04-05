@@ -35,7 +35,7 @@ class AudioDownloader:
 
 operation = input('1. Video \n2. Audio\n')
 link = input("Enter the YouTube video URL: ")
-print("Enter the destination (leave blank for current directory)")
+print("Enter the directory (leave blank for current directory)")
 save_path = input(">> ")
 if operation == "1":
     downloader = VideoDownloader(link, save_path)
