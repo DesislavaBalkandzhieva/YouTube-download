@@ -1,6 +1,6 @@
 from pathlib import Path
 from pytube import YouTube
-
+import resolution
 class VideoDownloader:
     def __init__(self, link, save_path):
         self.link = link
@@ -8,7 +8,10 @@ class VideoDownloader:
 
     def download(self):
         youtube_object = YouTube(self.link)
-        stream = youtube_object.streams.get_highest_resolution()
+        if res=="1":
+            stream = youtube_object.streams.get_highest_resolution()
+        if res=="2":
+            stream = youtube_object.streams.get_lowest_resolution()
         try:
             if self.save_path == "":
                 self.save_path = Path.cwd()
@@ -39,6 +42,7 @@ print("Enter the directory (leave blank for current directory)")
 save_path = input(">> ")
 if operation == "1":
     downloader = VideoDownloader(link, save_path)
+    res=input('Resolution: \n1.MAX\n2.MIN\n')
 elif operation == "2":
     downloader = AudioDownloader(link, save_path)
 else:
