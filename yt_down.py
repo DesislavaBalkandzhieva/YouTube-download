@@ -1,10 +1,11 @@
 from audioDownloader import AudioDownloader
 from videoDownloader import VideoDownloader 
+from playlistDownloader import PlaylistDownloader
 from pathlib import Path
 from pytube import YouTube
 
 
-operation = input('1. Video \n2. Audio\n')
+operation = input('1. Video \n2. Audio\n3. Playlist\n')
 link = input("Enter the YouTube video URL: ")
 print("Enter the directory (leave blank for current directory)")
 save_path = input(">> ")
@@ -13,6 +14,8 @@ if operation == "1":
     downloader = VideoDownloader(link, save_path, res)
 elif operation == "2":
     downloader = AudioDownloader(link, save_path)
+elif operation=="3":
+    downloader= PlaylistDownloader(link, save_path)
 else:
     print("Invalid input")
     exit(1)
