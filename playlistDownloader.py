@@ -8,12 +8,14 @@ class PlaylistDownloader:
 
     def download(self):
         youtube_object = Playlist(self.link)
+        #to do abtract youtube_object 
         print(len(youtube_object.video_urls))
-
         try:
             for video in youtube_object.videos:
                 audio_stream = video.streams.get_highest_resolution()
                 audio_stream.download(output_path=self.save_path)
         except:
             print("An error has occurred")
-        print("Download is completed successfully")
+        finally:
+            print("Download is completed successfully")
+            
