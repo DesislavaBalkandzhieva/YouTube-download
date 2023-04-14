@@ -1,21 +1,18 @@
 from pathlib import Path
 from pytube import Playlist
+from downloader import Downloader
 
-class PlaylistDownloader:
-    def __init__(self, link, save_path):
-        self.link = link
-        self.save_path = save_path
-
+class PlaylistDownloader(Downloader):
     def download(self):
-        youtube_object = Playlist(self.link)
-        #to do abtract youtube_object 
+        youtube_object = self.get_playlist_object()
+        print ('The number of videos in the playlist are:')
         print(len(youtube_object.video_urls))
+
         try:
             for video in youtube_object.videos:
-                audio_stream = video.streams.get_highest_resolution()
-                audio_stream.download(output_path=self.save_path)
-        except:
+                audio_stream = video.streams.filter(only_audio=True).first()
+                self.download_stream(audio_stream, file_extension='mp3')
+        except IOError:
             print("An error has occurred")
         finally:
             print("Download is completed successfully")
-            

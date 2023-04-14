@@ -1,27 +1,36 @@
 from pathlib import Path
 from pytube import YouTube
+from downloader import Downloader
 
-class VideoDownloader:
+class VideoDownloader(Downloader):
     def __init__(self, link, save_path, res):
-        self.link = link
-        self.save_path = save_path
-        self.res=res
+        super().__init__(link, save_path)
+        self.res = res
 
     def download(self):
-        youtube_object = YouTube(self.link)
-        if self.res=="1":
+        youtube_object = self.get_youtube_object()
+        if self.res == "1":
             stream = youtube_object.streams.get_highest_resolution()
-        if self.res=="2":
+        elif self.res == "2":
             stream = youtube_object.streams.get_lowest_resolution()
-        if self.res=="3":
-            stream=youtube_object.filter(res="360p")
-        if self.res=="4":
-            stream=youtube_object.filter(res="720p")
+        elif self.res == "3":
+            stream = self.get_stream_with_resolution(youtube_object, "360p")
+        elif self.res == "4":
+            stream = self.get_stream_with_resolution(youtube_object, "720p")
+        else:
+            print("Invalid resolution option")
+            return
+
         try:
-            if self.save_path == "":
-                self.save_path = Path.cwd()
-            stream.download(self.save_path) 
+            self.download_stream(stream)
         except:
             print("An error has occurred")
-        print("Video download is completed successfully")
+        finally:
+            print("Video download is completed successfully")
 
+    def get_stream_with_resolution(self, youtube_object, resolution):
+        available_streams = youtube_object.streams.filter(progressive=True, file_extension='mp4')
+        for stream in available_streams:
+            if stream.resolution == resolution:
+                return stream
+        return None
