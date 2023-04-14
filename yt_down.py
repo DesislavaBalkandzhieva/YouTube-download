@@ -9,6 +9,7 @@ operation = input('1. Video \n2. Audio\n3. Playlist\n')
 link = input("Enter the YouTube video URL: ")
 print("Enter the directory (leave blank for current directory)")
 save_path = input(">> ")
+#switch
 if operation == "1":
     res=input('Resolution: \n1.MAX\n2.MIN\n3.360p\n4.720p\n')
     downloader = VideoDownloader(link, save_path, res)
@@ -19,5 +20,6 @@ elif operation=="3":
 else:
     print("Invalid input")
     exit(1)
+    #na vseki exept finally
 
 downloader.download()
